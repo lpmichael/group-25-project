@@ -36,7 +36,6 @@ nav {
     text-decoration: underline;
     text-decoration-thickness: 3px;
     text-decoration-color: rgb(112, 30, 6);
-
   }
   
   h2, h3 {
@@ -53,4 +52,12 @@ nav {
   }
   
   /*# sourceMappingURL=out.css.map */
+
+  img{
+    border-radius: 6px;
+    height: 100px;
+}
+.icon{
+    display: flex;
+}
   
