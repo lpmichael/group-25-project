@@ -1,1 +1,27 @@
-<p>form works!</p>
+<!-- LM:
+This form was written with heavy reference to 
+https://angular.dev/guide/forms/reactive-forms
+-->
+
+<body>
+    <p> Testing form, please hold</p>
+        <br>
+    <form [formGroup]="numsForm" (ngSubmit)="onSubmit()">
+        <label for="rows">Number of Rows: </label> 
+        <input type="range" formControlName="rows" min="0" max="1000" step="1">
+            <br>
+        <label for="cols">Number of Columns: </label>
+        <input type="range" formControlName="cols" min="0" max="702" step="1">
+            <br>
+        <label for="colors">Number of Colors: </label>
+        <input type="range" formControlName="colors" min="0" max="10" step="1">
+            <br>
+        <p>Select a value for each field. Click sumbit when you are happy with your selections.</p>
+        <button type="submit" [disabled]="!numsForm.valid">Submit</button>
+    </form>    
+
+    <p>
+        
+    </p>
+  
+</body>
