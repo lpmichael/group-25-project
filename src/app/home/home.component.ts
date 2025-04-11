@@ -1,12 +1,22 @@
 import { Component } from '@angular/core';
-import { FormComponent } from '../form/form.component';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
-  imports: [FormComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './home.component.html',
-  styleUrl: '../app.component.css'
+  styleUrl: './home.component.css'
 })
 export class HomeComponent {
-
+  numsForm = new FormGroup({
+    rows: new FormControl(0, [Validators.required, Validators.min(1)]),
+    cols: new FormControl(0, [Validators.required, Validators.min(1)]),
+    colors: new FormControl(0, [Validators.required, Validators.min(1)])
+  })
+      
+     
+      onSubmit() {
+        console.log(this.numsForm.value);
+      }
 }
+
