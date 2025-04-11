@@ -4,7 +4,8 @@ https://angular.dev/guide/forms/reactive-forms
 -->
 
 <body>
-    <p> Testing form, please hold</p>
+    <h2>Table options</h2>
+    <p>Select the size of your table and the number of colors you would like.</p>
         <br>
     <form [formGroup]="numsForm" (ngSubmit)="onSubmit()">
         <label for="rows">Number of Rows: {{ this.numsForm.get('rows')?.value }} </label> 
@@ -16,7 +17,7 @@ https://angular.dev/guide/forms/reactive-forms
         <label for="colors">Number of Colors: {{ this.numsForm.get('colors')?.value }} </label>
         <input type="range" formControlName="colors" min="0" max="10" step="1">
             <br>
-        <p>Select a value for each field. Click sumbit when you are happy with your selections.</p>
+        <p>Use the slider to select a value for each field. Click sumbit when you are happy with your selections.</p>
         <button type="submit" [disabled]="!numsForm.valid">Submit</button>
     </form>    
 
