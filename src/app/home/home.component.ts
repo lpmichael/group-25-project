@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
@@ -8,6 +8,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
+@Output() formEmit = new EventEmitter<FormGroup>();
+
   numsForm = new FormGroup({
     rows: new FormControl(0, [Validators.required, Validators.min(1)]),
     cols: new FormControl(0, [Validators.required, Validators.min(1)]),
@@ -17,6 +19,7 @@ export class HomeComponent {
      
       onSubmit() {
         console.log(this.numsForm.value);
+        this.formEmit.emit(this.numsForm); 
       }
 }
 
