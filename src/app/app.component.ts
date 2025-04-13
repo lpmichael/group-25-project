@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
-import { FormComponent } from './form/form.component';
+
+import { UppertableComponent } from './uppertable/uppertable.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, AboutComponent, FormComponent, RouterLink],
+  imports: [RouterOutlet, HomeComponent, AboutComponent, UppertableComponent, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
