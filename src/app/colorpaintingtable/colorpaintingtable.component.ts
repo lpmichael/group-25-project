@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HomeComponent } from '../home/home.component';
-import {NgxPrintModule} from 'ngx-print';
 
 @Component({
   selector: 'app-colorpaintingtable',
-  imports: [ReactiveFormsModule, HomeComponent, NgxPrintModule],
+  imports: [ReactiveFormsModule, HomeComponent],
   templateUrl: './colorpaintingtable.component.html',
   styleUrl: './colorpaintingtable.component.css'
 })
