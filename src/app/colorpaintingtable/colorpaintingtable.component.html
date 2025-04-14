@@ -1,0 +1,48 @@
+   <!-- Created with reference to:
+     https://blog.angular-university.io/angular-for/
+     https://blog.angular-university.io/angular-if/
+     https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_rowindex
+    -->
+<div id = "colorPaintingTable">
+    <app-home (formEmit)="setColsAndRows($event)"></app-home>
+
+    <!-- <p>colorpaintingtable works!</p> -->
+    <table>
+        <thead>
+            <tr>
+                @for(letter of headerLetters; track letter; let i = $index) {
+                    @if(i <= columns) {
+                        @if(i == 0) {
+                            <th></th>
+                        }
+                        @if(i != 0) {
+                            <th> {{headerLetters[i - 1]}} </th>  
+                            <!-- display column letters on col header -->
+                        }
+                    }
+                }
+            </tr>
+        </thead>
+        <tbody>
+                @for(num of rowNums; track num; let i = $index){
+                    @if(i < rows) {
+                        <tr><th> {{i + 1}} </th>
+                        @for(letter of headerLetters; track letter; let j = $index) {
+                            @if(j < columns) {
+                                <td (click)="clicker(j, i)"></td>
+                                <!-- create empty cells -->
+                                 <!-- display information on click -->
+                            }
+                        }
+                        </tr>
+                    }
+                }
+        </tbody>
+    </table>
+</div>
+<div id="printButton">
+    <form>
+        <input type="button" onclick="window.print()" value="Print Me"/>
+    </form>
+</div>
+   

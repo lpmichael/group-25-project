@@ -118,3 +118,9 @@ input[type="range"]::-moz-range-progress {
     height: 9px;
   }
 
+  @media print {
+    :host {
+        display: none;
+    }
+}
+
