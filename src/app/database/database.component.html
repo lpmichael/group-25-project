@@ -1,1 +1,70 @@
-<p>database works!</p>
+<title></title>
+<body>
+<!--
+    yay form validation  -LM
+    https://angular.dev/guide/forms/form-validation    
+
+    TODO: validate the forms :(
+-->
+
+    <form [formGroup]="dataAdd" (ngSubmit)="onSubmitAdd()">
+        <table>
+            <tr>
+                <th> Add a color to the database:</th>
+            </tr>
+            <tr>
+                <td><label for="name">Name: </label> </td>
+                <td> <input type="text" formControlName="name" placeholder="Descriptive Name"> </td>
+            </tr>
+            <tr>
+                <td> <label for="hex">Hex Value: </label> </td>
+                <td> <input type="text" formControlName="hex" placeholder="#000000"> </td>
+            </tr>
+        </table>
+        <button class="button" type="submit" [disabled]="!dataAdd.valid">Add</button>
+    </form>
+
+<br> <br>
+
+    <form [formGroup]="dataEdit" (ngSubmit)="onSubmitEdit()">
+        <table>
+            <tr>
+                <th> Alter a color in the database:</th>
+            </tr>
+            <tr>
+                <td><label for="color">Select a color to edit: </label> </td>
+                <td> <select formControlName="color"> 
+                    <option> Populate from database </option>
+                </select> </td>
+            </tr>
+            <tr>
+                <td><label for="name">Name: </label> </td>
+                <td> <input type="text" formControlName="name" placeholder="Descriptive Name"> </td>
+            </tr>
+            <tr>
+                <td> <label for="hex">Hex Value: </label> </td>
+                <td> <input type="text" formControlName="hex" placeholder="#000000"> </td>
+            </tr>
+        </table>
+        <button class="button" type="submit" [disabled]="!dataEdit.valid">Edit</button>
+    </form>
+    <br> <br>
+
+    <form [formGroup]="dataDelete" (ngSubmit)="onSubmitDelete()">
+        <table>
+            <tr>
+                <th> Delete a color from the database:</th>
+            </tr>
+            <tr>
+                <td> <label for="color">Color: </label> </td>
+                <td> <select formControlName="color"> 
+                    <option> Populate from database </option>
+                </select> </td>
+            </tr>
+        </table>
+
+        <button class="button" type="submit" [disabled]="!dataDelete.valid">Delete</button>
+    </form>
+
+</body>
+
