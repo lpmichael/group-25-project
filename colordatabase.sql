@@ -6,6 +6,7 @@ DROP PROCEDURE IF EXISTS removeColor;
 DROP PROCEDURE IF EXISTS updateColor;
 
 --TODO: SELECT 1-N colors
+--      Update Colors
 
 
 CREATE TABLE colors (
@@ -14,8 +15,6 @@ CREATE TABLE colors (
     name varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (ID)
     );
-
-
 
 delimiter $$
 
@@ -78,9 +77,23 @@ delimiter ;
 delimiter $$
 
 --update a color
-CREATE PROCEDURE updateColor()
+CREATE PROCEDURE updateColor(IN updateID int, IN updateHexCode character(6), IN updateName varchar(255))
     BEGIN
+        IF EXISTS (SELECT * FROM colors WHERE hex_value = updateHexCode) THEN
+            SELECT 'Inputed Hex Code is already in use! Update Failed.' AS ERROR;
+        ELSEIF EXISTS (SELECT * FROM colors WHERE name = updateName) THEN
+            SELECT 'Inputed Name is already in use! Update Failed' AS ERROR;
+        ELSE
+            IF ((updateName IS NOT NULL) and (updateName != ''))THEN
+                UPDATE colors SET name = updateName WHERE ID = updateID;
+            END IF;
+            IF ((updateHexCode IS NOT NULL) and (updateHexCode != ''))THEN
+                UPDATE colors SET hex_value = updateHexCode WHERE ID = updateID;
+            END IF;
+        END IF;
     END $$
 
 delimiter ;
+
+
 
