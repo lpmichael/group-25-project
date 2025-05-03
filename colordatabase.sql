@@ -4,6 +4,7 @@ DROP PROCEDURE IF EXISTS initalizeDatabase;
 DROP PROCEDURE IF EXISTS insertColor;
 DROP PROCEDURE IF EXISTS removeColor;
 DROP PROCEDURE IF EXISTS updateColor;
+DROP PROCEDURE IF EXISTS getColors;
 
 --TODO: SELECT 1-N colors
 --      Update Colors
@@ -95,5 +96,13 @@ CREATE PROCEDURE updateColor(IN updateID int, IN updateHexCode character(6), IN 
 
 delimiter ;
 
+delimiter $$
+CREATE PROCEDURE getColors(in Count int)
+    BEGIN
+        SELECT * FROM colors LIMIT Count;
+    END $$
+delimiter ;
 
+
+CALL initalizeDatabase();
 
