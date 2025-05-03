@@ -17,18 +17,12 @@
             <input type="radio" id="selection"name="rowSelection" value="Selected">
             <label for="selection">Select Row</label><br>
             <form [formGroup]="colorForm">
-
                 <select formControlName="colors"> 
-                    <ng-container *ngFor="let color of colors">
-                        <option [ngValue]="color.id">{{color.name}}</option>
-                    </ng-container>
-                    
-                    <!--<option *ngFor="let color of colors" [ngValue]="color.id" 
-                    selected="setDefaultValue(color)">{{color.name}}</option>
-                -->
+                    @for(color of data; track color.ID){
+                        <option value={{color.ID}}>{{color.name}}</option>}
                 </select>
                
-                </form>
+                </form> 
         </td>
         <td><!--Empty right now as per instructions--></td>
     </tr>
