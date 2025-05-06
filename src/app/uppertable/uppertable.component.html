@@ -3,23 +3,22 @@
 
 <app-home (formEmit)="setAmountAndShow($event)"></app-home>
 
-<p *ngIf="formSubmitted == true">Hello World, the form submitted!</p>
-
-<table>
+<table *ngIf="formSubmitted == true">
     <colgroup>
         <!--Left column is 20%, right is 80%-->
         <col style="width:20%">
         <col style="width:80%">
     </colgroup>
 
-    <tr *ngFor="let item of counter(amount) let i = index;">
+    <tr *ngFor="let item of counter(amount) let i = index">
         <td>
             <input type="radio" id="selection"name="rowSelection" value="Selected">
             <label for="selection">Select Row</label><br>
             <form [formGroup]="colorForm">
-                <select formControlName="colors"> 
-                    @for(color of data; track color.ID){
-                        <option value={{color.ID}}>{{color.name}}</option>}
+                <select>
+                        <option *ngFor = "let color of colors"  [ngValue]=color.ID 
+                            [selected]="(selected(i) == color.ID)" [disabled]="disableOption(color.ID)">{{color.name}}
+                        </option>
                 </select>
                
                 </form> 
@@ -27,5 +26,7 @@
         <td><!--Empty right now as per instructions--></td>
     </tr>
 </table>
+
+
 
 
