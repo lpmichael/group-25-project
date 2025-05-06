@@ -6,7 +6,7 @@ import { UppertableComponent } from './uppertable/uppertable.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HomeComponent, AboutComponent, UppertableComponent, RouterLink],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
