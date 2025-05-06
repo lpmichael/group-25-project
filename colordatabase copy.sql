@@ -1,9 +1,11 @@
+DROP TABLE IF EXISTS selectedColors;
 DROP TABLE IF EXISTS colors;
 DROP TABLE IF EXISTS tempColors;
 DROP PROCEDURE IF EXISTS initalizeDatabase;
 DROP PROCEDURE IF EXISTS insertColor;
 DROP PROCEDURE IF EXISTS removeColor;
 DROP PROCEDURE IF EXISTS updateColor;
+DROP PROCEDURE IF EXISTS getAmount;
 DROP PROCEDURE IF EXISTS getColors;
 
 --TODO: SELECT 1-N colors
@@ -16,6 +18,15 @@ CREATE TABLE colors (
     name varchar(255) NOT NULL UNIQUE,
     PRIMARY KEY (ID)
     );
+
+CREATE TABLE selectedColors(
+    ID int NOT NULL UNIQUE PRIMARY KEY,
+    hex_value character(6) NOT NULL UNIQUE,
+    name varchar(255) NOT NULL UNIQUE,
+    FOREIGN KEY (ID) REFERENCES colors(ID),
+    FOREIGN KEY (hex_value) REFERENCES colors(hex_value),
+    FOREIGN KEY (name) REFERENCES colors(name)
+);
 
 delimiter $$
 
@@ -96,13 +107,26 @@ CREATE PROCEDURE updateColor(IN updateID int, IN updateHexCode character(6), IN 
 
 delimiter ;
 
+--gets all colors from Database
+-- if this is the first time getting/setting the colors, 
+--insert the correct amount of colors into the 'selectedColors' table
 delimiter $$
-CREATE PROCEDURE getColors(in Count int)
+CREATE PROCEDURE getColors(in Count int, in firstTime int)
     BEGIN
-        SELECT * FROM colors LIMIT Count;
+        IF (firstTime > 0) THEN
+            INSERT INTO selectedColors (SELECT * FROM colors WHERE colors.ID < Count);
+        END IF;
+
+        SELECT * FROM colors ORDER BY ID;
     END $$
 delimiter ;
 
-
+delimiter $$
+CREATE PROCEDURE getAmount()
+    BEGIN
+        SELECT COUNT(ID) AS number FROM colors;
+    END $$
+    
+delimiter ;
 CALL initalizeDatabase();
 
