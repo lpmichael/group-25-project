@@ -1,7 +1,7 @@
 <div id="tablegenerator">
     <app-home (formEmit)="tableGenerator($event)"></app-home>
 </div>
-
+<br>
 <div id ="uppertable">
 
     <table *ngIf="formSubmitted == true">
@@ -28,7 +28,7 @@
         </tr>
     </table>
 </div>
-  
+<br> 
   <!-- Created with reference to:
      https://blog.angular-university.io/angular-for/
      https://blog.angular-university.io/angular-if/
@@ -36,7 +36,7 @@
     -->
 <div id = "colorPaintingTable">
 
-    <table>
+    <table *ngIf="formSubmitted == true">
         <thead>
             <tr>
                 @for(letter of headerLetters; track letter; let i = $index) {
@@ -71,7 +71,7 @@
 </div>
 <div id="printButton">
     <form>
-        <input type="button" onclick="window.print()" value="Print Me"/>
+        <input type="button" class="button" onclick="window.print()" value="Print Me"/>
     </form>
 </div>
    
