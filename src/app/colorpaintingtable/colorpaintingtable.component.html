@@ -1,12 +1,41 @@
-   <!-- Created with reference to:
+<div id="tablegenerator">
+    <app-home (formEmit)="tableGenerator($event)"></app-home>
+</div>
+
+<div id ="uppertable">
+
+    <table *ngIf="formSubmitted == true">
+        <colgroup>
+            <!--Left column is 20%, right is 80%-->
+            <col style="width:20%">
+            <col style="width:80%">
+        </colgroup>
+
+        <tr *ngFor="let item of counter(amount) let i = index">
+            <td>
+                <input type="radio" id="selection"name="rowSelection" value="Selected">
+                <label for="selection">Select Row</label><br>
+                <form [formGroup]="colorForm">
+                    <select>
+                            <option *ngFor = "let color of colors"  [ngValue]=color.ID 
+                                [selected]="(selected(i) == color.ID)" [disabled]="disableOption(color.ID)">{{color.name}}
+                            </option>
+                    </select>
+                
+                    </form> 
+            </td>
+            <td><!--Empty right now as per instructions--></td>
+        </tr>
+    </table>
+</div>
+  
+  <!-- Created with reference to:
      https://blog.angular-university.io/angular-for/
      https://blog.angular-university.io/angular-if/
      https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_tr_rowindex
     -->
 <div id = "colorPaintingTable">
-    <app-home (formEmit)="setColsAndRows($event)"></app-home>
 
-    <!-- <p>colorpaintingtable works!</p> -->
     <table>
         <thead>
             <tr>
