@@ -5,6 +5,13 @@ import { Colors } from '../colorsmodel/colors.model';
 import { FormGroup } from '@angular/forms';
 import { response } from 'express';
 
+//TODO
+//options reload on change in various dropdowns
+//ADD COLOR
+//REMOVE COLOR
+//ERROR MESSAGES?
+
+
 
 @Injectable({
   providedIn: 'root'
