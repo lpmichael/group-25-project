@@ -32,10 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET"){
 }
 
 elseif ($_SERVER["REQUEST_METHOD"] === "POST"){
-	handlePost($conn);
+	updateColor($conn);
 }
 
 elseif ($_SERVER["REQUEST_METHOD"] === "PUT"){
+	console.log('Request Success: Put');
 	updateColor($conn);
 }
 
@@ -69,6 +70,7 @@ function handleGet($conn) {
 // get the number of colors in the table for input validation
 
 function getColorAmount($conn){
+	
 	$sql = $conn->prepare();
 	$sql -> bind_param();
 	$sql -> execute();
@@ -85,16 +87,23 @@ function getColorAmount($conn){
 //updateColor
 
 function updateColor($conn){
-	//put
-	$id = intval(isset($_PUT["id"]) ? $_PUT["id"] : '');
-	$hex_value = (isset($_PUT["hexval"]) ? $_PUT["hexval"] : "");
-	$name = intval(isset($_PUT["name"]) ? $_PUT["name"] : "");
+	$id = intval(isset($_POST["id"]) ? $_POST["id"] : 0);
+	$hex_value = (isset($_POST["hexval"]) ? $_POST["hexval"] : "");
+	$name = (isset($_POST["name"]) ? $_POST["name"] : "");
 
+	$response = 'id: ' . $id . ' hex: ' . $hex_value . ' name: ' . $name . '\n';
 
-	$sql = $conn->prepare("CALL updateColor(?,?,?)") or trigger_error($conn->error, E_USER_ERROR);
-	$sql -> bind_param("iss", $id, $hex_value, $name) or trigger_error($conn->error, E_USER_ERROR);
-	$sql -> execute() or trigger_error($conn->error, E_USER_ERROR);
+	$sql = $conn->prepare("CALL updateColor(?,?,?)");
+		if ($sql == false){
+			die("Prepare Update Statement Failed" . $conn->error);
+		}
+	$sql -> bind_param("iss", $id, $hex_value, $name);
+	if ($sql == false){
+		die("Prepare Update Params Failed" . $conn->error);
+	}
+	$sql -> execute();
 	http_response_code(201);
+	echo  $response . 'POST completed. Rows changed: ' . ($sql->affected_rows);
 	
 }
 

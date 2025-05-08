@@ -2,9 +2,8 @@
     <app-home (formEmit)="tableGenerator($event)"></app-home>
 </div>
 <br>
-<div id ="uppertable">
-
-    <table *ngIf="formSubmitted == true">
+<div >
+    <table  class="uppertable" *ngIf="formSubmitted == true">
         <colgroup>
             <!--Left column is 20%, right is 80%-->
             <col style="width:20%">
@@ -68,7 +67,9 @@
                 }
         </tbody>
     </table>
+    <br>
 </div>
+
 <div id="printButton">
     <form>
         <input type="button" class="button" onclick="window.print()" value="Print Me"/>
