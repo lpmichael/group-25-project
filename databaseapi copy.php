@@ -7,9 +7,9 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header("content-type: application/json");
 $servername = "faure";
-$username = "[EID]";
-$db = "[EID]";
-$password = "[PASSWORD]";
+$username = "oceans77";
+$db = "oceans77";
+$password = "835247512";
 $conn = new mysqli($servername, $username, $password, $db);
 //TODO
 //POPULATE OPTIONS //Done?
@@ -32,7 +32,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET"){
 }
 
 elseif ($_SERVER["REQUEST_METHOD"] === "POST"){
-	updateColor($conn);
+	if (isset($_GET["update"])){
+		updateColor($conn);
+	}
+	
 }
 
 elseif ($_SERVER["REQUEST_METHOD"] === "PUT"){
@@ -87,11 +90,11 @@ function getColorAmount($conn){
 //updateColor
 
 function updateColor($conn){
-	$id = intval(isset($_POST["id"]) ? $_POST["id"] : 0);
-	$hex_value = (isset($_POST["hexval"]) ? $_POST["hexval"] : "");
-	$name = (isset($_POST["name"]) ? $_POST["name"] : "");
+	$input = json_decode(file_get_contents('php://input'), true);
 
-	$response = 'id: ' . $id . ' hex: ' . $hex_value . ' name: ' . $name . '\n';
+	$id = intval($input['id'] ? $input['id'] : 0);
+	$hex_value = ($input['hexval'] ? $input['hexval'] : "");
+	$name = ($input["name"] ? $input["name"] : "");
 
 	$sql = $conn->prepare("CALL updateColor(?,?,?)");
 		if ($sql == false){
@@ -103,7 +106,6 @@ function updateColor($conn){
 	}
 	$sql -> execute();
 	http_response_code(201);
-	echo  $response . 'POST completed. Rows changed: ' . ($sql->affected_rows);
 	
 }
 
