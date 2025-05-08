@@ -19,15 +19,6 @@ CREATE TABLE colors (
     PRIMARY KEY (ID)
     );
 
-CREATE TABLE selectedColors(
-    ID int NOT NULL UNIQUE PRIMARY KEY,
-    hex_value character(6) NOT NULL UNIQUE,
-    name varchar(255) NOT NULL UNIQUE,
-    FOREIGN KEY (ID) REFERENCES colors(ID),
-    FOREIGN KEY (hex_value) REFERENCES colors(hex_value),
-    FOREIGN KEY (name) REFERENCES colors(name)
-);
-
 delimiter $$
 
 --call to initalize/reset the database with the initial 10 colors
