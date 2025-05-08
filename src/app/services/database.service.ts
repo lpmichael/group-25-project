@@ -8,7 +8,6 @@ import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
-
 export class DatabaseService {
 
   private apiurl = '[PHP URL (host on CSU Server)]'
@@ -27,7 +26,7 @@ export class DatabaseService {
 
 
   updateColor(colorUpdate: FormGroup) {
-    let id = colorUpdate.get('id')?.value;
+    let id = colorUpdate.get('color')?.value;
     let hex = colorUpdate.get('hex')?.value;
     let name = colorUpdate.get('name')?.value;
     
@@ -35,11 +34,15 @@ export class DatabaseService {
     params = params.append("id", id);
     params = params.append("hexval", hex);
     params = params.append("name", name);
+    params = params.append("update", 1);
 
-    console.log("Made it to service!");
-    console.log("id " + id + " hex " + hex + " name " + name );
+   
 
-    this.http.post(this.apiurl, {params});
+    console.log('Hit Update Service')
+    return this.http.post(this.apiurl, null, {params: params, responseType: 'text'}).subscribe( 
+      res =>{ console.log('Response:', res)}
+    );
+
 
   }
 
@@ -50,6 +53,13 @@ export class DatabaseService {
   }
 
   
+  getColorFromID(name: string){
+    let params = new HttpParams;
+    params = params.append('getid', name);
+    params = params.append('update', 1);
+    return this.http.get<Colors>(this.apiurl, {params: params}).subscribe();
+
+  }
 
   //
 }
