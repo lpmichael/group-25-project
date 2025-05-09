@@ -19,7 +19,6 @@ CREATE TABLE colors (
     PRIMARY KEY (ID)
     );
 
-
 delimiter $$
 
 --call to initalize/reset the database with the initial 10 colors
@@ -103,12 +102,8 @@ delimiter ;
 -- if this is the first time getting/setting the colors, 
 --insert the correct amount of colors into the 'selectedColors' table
 delimiter $$
-CREATE PROCEDURE getColors(in Count int, in firstTime int)
+CREATE PROCEDURE getColors()
     BEGIN
-        IF (firstTime > 0) THEN
-            INSERT INTO selectedColors (SELECT * FROM colors WHERE colors.ID < Count);
-        END IF;
-
         SELECT * FROM colors ORDER BY ID;
     END $$
 delimiter ;
