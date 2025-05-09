@@ -35,26 +35,26 @@ elseif ($_SERVER["REQUEST_METHOD"] === "POST"){
 	if (isset($_GET["update"])){
 		updateColor($conn);
 	}
+	elseif(isset($_GET["add"])){
+		insertColor($conn);
+	}
+	elseif(isset($_GET["delete"])){
+		deleteColor($conn);
+	}
 	
 }
 
-elseif ($_SERVER["REQUEST_METHOD"] === "PUT"){
-	console.log('Request Success: Put');
-	updateColor($conn);
-}
+
 
 //if first is set, set default selected values
 function handleGet($conn) {
 	
-	$count = intval(isset($_GET["count"]) ? $_GET["count"] : "0");
-	$firstTime = intval(isset($_GET["first"]) ? $_GET["first"] : "0");
 
-	$sql = $conn->prepare("CALL getColors(?, ?)");
+	$sql = $conn->prepare("CALL getColors()");
 		if ($sql == false){
 			die("Prepare Get Statement Failed" . $conn->error);
 		}
 
-	$sql-> bind_param("ii" ,$count, $firstTime);
 	$sql->execute();
 
 
@@ -90,19 +90,19 @@ function getColorAmount($conn){
 //updateColor
 
 function updateColor($conn){
-	$input = json_decode(file_get_contents('php://input'), true);
+	$input = json_decode(file_get_contents("php://input"), true);
 
-	$id = intval($input['id'] ? $input['id'] : 0);
-	$hex_value = ($input['hexval'] ? $input['hexval'] : "");
+	$id = intval($input["id"] ? $input["id"] : 0);
+	$hex_value = ($input["hexval"] ? $input["hexval"] : "");
 	$name = ($input["name"] ? $input["name"] : "");
 
 	$sql = $conn->prepare("CALL updateColor(?,?,?)");
 		if ($sql == false){
-			die("Prepare Update Statement Failed" . $conn->error);
+			die(("Prepare Update Statement Failed" . $conn->error));
 		}
 	$sql -> bind_param("iss", $id, $hex_value, $name);
 	if ($sql == false){
-		die("Prepare Update Params Failed" . $conn->error);
+		die(("Prepare Update Params Failed" . $conn->error));
 	}
 	$sql -> execute();
 	http_response_code(201);
@@ -113,14 +113,46 @@ function updateColor($conn){
 //insertColor
 
 function insertColor($conn){
-//post
 
+	$input = json_decode(file_get_contents("php://input"), true);
+
+
+	$hex_value = ($input["hexval"] ? $input["hexval"] : "");
+	$name = ($input["name"] ? $input["name"] : "");
+
+    $sql = $conn->prepare("CALL insertColor(?,?)");
+        if ($sql == false){
+            die(("Prepare Add Statement Failed" . $conn->error));
+        }
+    $sql -> bind_param("ss", $hex_value, $name);
+    if ($sql == false){
+        die(("Prepare Add Params Failed" . $conn->error));
+    }
+    $sql -> execute();
+    http_response_code(201);
 }
 
 //deleteColor
 
 function deleteColor($conn){
-	//delete
+	echo 'delete';
+	
+	$input = json_decode(file_get_contents("php://input"), true);
+
+	$id = intval($input["id"] ? $input["id"] : 0);
+
+    $sql = $conn->prepare("CALL removeColor(?)");
+        if ($sql == false){
+            //handle error
+        }
+    $sql -> bind_param("i", $id);
+    if ($sql == false){
+        //handle error
+    }
+    $sql -> execute();
+    http_response_code(201);
+    
 
 }
+
 ?>
