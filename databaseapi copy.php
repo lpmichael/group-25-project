@@ -7,9 +7,9 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
 header("content-type: application/json");
 $servername = "faure";
-$username = "oceans77";
-$db = "oceans77";
-$password = "835247512";
+$username = "EID";
+$db = "EID";
+$password = "PASSWORD";
 $conn = new mysqli($servername, $username, $password, $db);
 //TODO
 //POPULATE OPTIONS //Done?

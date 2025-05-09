@@ -18,7 +18,7 @@ import { response } from 'express';
 })
 export class DatabaseService {
 
-  private apiurl = 'https://cs.colostate.edu/~oceans77/databaseapi.php' //change if you need to test locally
+  private apiurl = 'https://cs.colostate.edu/~EID/databaseapi.php' //change if you need to test locally
   
 
   constructor(private http: HttpClient) {}
