@@ -4,7 +4,7 @@
 <br>
 <div id ="uppertable">
 
-    <table *ngIf="formSubmitted == true">
+    <table *ngIf="formSubmitted == true" id="upper-table">
         <colgroup>
             <!--Left column is 20%, right is 80%-->
             <col style="width:20%">
@@ -13,7 +13,7 @@
 
         <tr *ngFor="let item of counter(amount) let i = index">
             <td>
-                <input type="radio" id="selection"name="rowSelection" value="Selected">
+                <input type="radio" id="selection"name="rowSelection" value="Selected" (click)="selectedRow(i)">
                 <label for="selection">Select Row</label><br>
                 <form [formGroup]="colorForm">
                     <select>
@@ -24,9 +24,10 @@
                 
                     </form> 
             </td>
-            <td><!--Empty right now as per instructions--></td>
+            <td>{{getValues(i)}}</td>
         </tr>
     </table>
+    <!-- TODO:Add function to initialize array for values? -->
 </div>
 <br> 
   <!-- Created with reference to:
@@ -58,9 +59,11 @@
                         <tr><th> {{i + 1}} </th>
                         @for(letter of headerLetters; track letter; let j = $index) {
                             @if(j < columns) {
-                                <td (click)="clicker(j, i)"></td>
+                                <td [ngStyle]="bgColor(j, i)" (click)="clicker(j, i)"></td>
+                                <!-- dynamic background color using color hex of active color -->
+                                <!-- Reference to: https://angular.dev/api/common/NgStyle -->
                                 <!-- create empty cells -->
-                                 <!-- display information on click -->
+                                <!-- display information on click -->
                             }
                         }
                         </tr>

@@ -11,13 +11,39 @@ th {
 }
 td {
     border: 1px rgb(15, 82, 90) solid;
-    width:20px;
+    min-width:25px;
 }
 @media print {
     @page { 
         margin: 0; 
+        orientation: landscape;
     }
     #printButton {
         display: none;
+    }
+    input[type="radio"] {
+        display: none;
+    }
+    label {
+        display: none;
+    }
+    table {
+        page-break-before: always;
+        display: table;
+        display: table-cell;
+        display: table-row;
+        border: 0.5px black !important;
+        background-color: white !important;
+    }
+    tr {
+        display: table-row;
+        border: 0.5px black solid !important;
+        background-color: white !important;
+    }
+    td {
+        display: table-cell;
+        border: 0.5px black solid !important;
+        page-break-after: auto;
+        background-color: white !important;
     }
 }
