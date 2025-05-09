@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf, NgFor } from '@angular/common';
+import { NgIf, NgFor, NgStyle } from '@angular/common';
 import { HomeComponent } from '../home/home.component';
 import { Colors } from '../colorsmodel/colors.model'; 
 import { DatabaseService } from '../services/database.service';
+import { text } from 'stream/consumers';
 
 @Component({
   selector: 'app-colorpaintingtable',
-  imports: [ReactiveFormsModule, HomeComponent, NgFor, NgIf, FormsModule],
+  imports: [ReactiveFormsModule, HomeComponent, NgFor, NgIf, FormsModule, NgStyle],
   templateUrl: './colorpaintingtable.component.html',
   styleUrl: './colorpaintingtable.component.css'
 })
@@ -21,6 +22,11 @@ export class ColorpaintingtableComponent implements OnInit {
     formSubmitted = false;
     colors:Array<Colors> = [];
     selectedValue:Array<Colors> = [];
+    coloredCells: String[][] = [[]];
+    selectedColorIndex = -1;
+    //selected background color hex for painting the table - default to our site's background color
+    backgroundColorHex = "#fff4d1";
+    backgroundColorArray: String[][] = [[]];
 
 
     colorForm!: FormGroup;
@@ -50,6 +56,10 @@ export class ColorpaintingtableComponent implements OnInit {
       this.formSubmitted = true;
       this.getColorsFromDB(1, this.amount);
       this.selectedValue = this.colors;
+      //build up the array to hold the table cell values
+      for(var i = 0; i < this.amount - 1; i++) {
+        this.coloredCells.push([]);
+      }
     }
 
     disableOption(id: number){
@@ -91,10 +101,50 @@ export class ColorpaintingtableComponent implements OnInit {
     setColsAndRows(tableInfo: FormGroup){
       this.columns = tableInfo.get('cols')?.value;
       this.rows = tableInfo.get('rows')?.value;
+
+      // create table to store background colors
+      for(var i = 0; i < this.rows; i++) {
+        this.backgroundColorArray.push([]);
+        for (var j = 0; j < this.columns; j++) {
+          this.backgroundColorArray[i].push("#fff4d1");
+        }
+      }
     }
 
     clicker(c: number, r: number) {
-      alert(this.headerLetters[c] + this.rowNums[r].toString());
+      var textContent = this.headerLetters[c] + this.rowNums[r].toString();
+      textContent = textContent.toString();
+    
+      if(this.selectedColorIndex != -1) {
+        // ANGULAR MADE ME DO IT THIS WAY INSTEAD OF INSERTING DIRECTLY :)
+        var currentContents = this.coloredCells[this.selectedColorIndex];
+        var newArray = [];
+        for (var i = 0; i < currentContents.length; i++) {
+          newArray.push(currentContents[i]);
+        }
+        newArray.push(textContent);
+        this.coloredCells[this.selectedColorIndex] = newArray;
+
+        //update background color for cell in array!
+        this.backgroundColorArray[r][c] = this.backgroundColorHex;
+      }
+      alert(textContent);
+    }
+
+    selectedRow(i: number) {
+      this.selectedColorIndex = i;
+      this.backgroundColorHex = "#" + this.colors[i].hex_value;
+      //TODO: fix - will only use hex color in original order from list
+    }
+
+    getValues(r: number) {
+      this.coloredCells[r].sort();
+      return this.coloredCells[r];
+    }
+
+    bgColor(c: number, r: number) {
+      var hex = this.backgroundColorArray[r][c];
+      return {'background-color': hex};
     }
 
     //GENERATION FOR BOTH TABLES:
