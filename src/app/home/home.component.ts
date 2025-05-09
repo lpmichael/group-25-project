@@ -8,7 +8,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-@Output() formEmit = new EventEmitter<FormGroup>();
+  
+
+  @Output() formEmit = new EventEmitter<FormGroup>();
 
   numsForm = new FormGroup({
     rows: new FormControl(0, [Validators.required, Validators.min(1)]),
@@ -21,5 +23,9 @@ export class HomeComponent {
         console.log(this.numsForm.value);
         this.formEmit.emit(this.numsForm); 
       }
-}
+
+
+  
+
+    }
 
