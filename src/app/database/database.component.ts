@@ -4,6 +4,7 @@ import { DatabaseService } from '../services/database.service';
 import { Colors } from '../colorsmodel/colors.model';
 import { NgModule } from '@angular/core';
 import { NgFor } from '@angular/common';
+import { timeStamp } from 'console';
 
 
 
@@ -22,30 +23,33 @@ export class DatabaseComponent implements OnInit {
   
   
   ngOnInit(){
-    this.db.getAllColors(0,0).subscribe({
+    this.db.getAllColors().subscribe({
       next: (response) => {
-      this.colors = response;
-      console.log ('Fetched: ', this.colors);
-    },
-    error: (err) => {
-      console.error('AHHHHHHHHH: ', err);
-    }})}  
+        this.colors = response;
+            console.log ('Fetched: ', this.colors);
+          },
+          error: (err) => {
+            console.error('AHHHHHHHHH: ', err);
+          }})
+  }  
 
 
-    @Output() addData = new EventEmitter<FormGroup>();    //The form to add something
-    
+ 
     
         dataAdd = new FormGroup({
-        name: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]), //must be only letters or spaces
-        hex: new FormControl('',  [Validators.required, Validators.pattern('/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/')])
+        name: new FormControl(),
+        hex: new FormControl()
       })                                              //must be a valid hex num
          
           onSubmitAdd() {
             console.log(this.dataAdd.value);
-            this.db.updateColor(this.dataAdd); 
+            this.db.addColor(this.dataAdd, this.colors);
+            
           }
+            
+      
     
-    @Output() editData = new EventEmitter<FormGroup>();   //the form the edit something
+
 
       dataEdit = new FormGroup({
       //color: new FormControl(Validators.required),
@@ -59,20 +63,35 @@ export class DatabaseComponent implements OnInit {
        
         onSubmitEdit() {
           console.log(this.dataEdit.value);
-          this.editData.emit(this.dataEdit); 
+          this.db.updateColor(this.dataEdit, this.colors);
+          this.getColors(this.colors);
         }
 
-    @Output() deleteData = new EventEmitter<FormGroup>();   //the form to delete something 
 
         dataDelete = new FormGroup({
         color: new FormControl(Validators.required),
       })
          
           onSubmitDelete() {
-            console.log(this.dataDelete.value);
-            this.deleteData.emit(this.dataDelete); 
+            console.log('onsubmitdelete' + this.dataDelete.value);
+            this.db.deleteColor(this.dataDelete);
+            this.getColors(this.colors);
           }
-  }
+
+    getColors(colors: Array<Colors>){
+      this.db.getAllColors().subscribe({
+        next: (response) => {
+          colors = response;
+              console.log ('Fetched: ', this.colors);
+            },
+            error: (err) => {
+              console.error('AHHHHHHHHH: ', err);
+            }})
+          }
+  
+        }
+
+
 
 
 function ngOnInIt() {

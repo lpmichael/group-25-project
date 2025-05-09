@@ -35,7 +35,7 @@ export class ColorpaintingtableComponent implements OnInit {
     
   // UPPER TABLE CONTENTS:
     getColorsFromDB(firstTime: number, colorAmount: number){
-      this.db.getAllColors(colorAmount, firstTime).subscribe({
+      this.db.getAllColors().subscribe({
         next: (response) => {
           this.colors = response;
           console.log ('Fetched: ', this.colors);
