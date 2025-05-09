@@ -58,8 +58,9 @@
             <tr>
                 <td> <label for="color">Color: </label> </td>
                 <td> <select formControlName="color"> 
-                    <option> Populate from database </option>
-                </select> </td>
+                    <option *ngFor = "let color of colors" [ngValue]=color.ID> {{color.name}}</option>
+                </select> 
+            </td>
             </tr>
         </table>
 
