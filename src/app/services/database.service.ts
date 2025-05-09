@@ -3,6 +3,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Colors } from '../colorsmodel/colors.model';
 import { FormGroup } from '@angular/forms';
+import { response } from 'express';
+
+//TODO
+//options reload on change in various dropdowns
+//ADD COLOR
+//REMOVE COLOR
+//ERROR MESSAGES?
+
 
 
 @Injectable({
@@ -10,7 +18,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class DatabaseService {
 
-  private apiurl = '[PHP URL (host on CSU Server)]'
+  private apiurl = 'https://cs.colostate.edu/~EID/databaseapi.php' //change if you need to test locally
   
 
   constructor(private http: HttpClient) {}
@@ -31,17 +39,15 @@ export class DatabaseService {
     let name = colorUpdate.get('name')?.value;
     
     let params = new HttpParams();
-    params = params.append("id", id);
-    params = params.append("hexval", hex);
-    params = params.append("name", name);
     params = params.append("update", 1);
 
-   
+    const colorData = {
+      id: id,
+      hexval: hex,
+      name: name,
+    }
 
-    console.log('Hit Update Service')
-    return this.http.post(this.apiurl, null, {params: params, responseType: 'text'}).subscribe( 
-      res =>{ console.log('Response:', res)}
-    );
+    return this.http.post<any>(this.apiurl, colorData, {params: params}).subscribe();
 
 
   }

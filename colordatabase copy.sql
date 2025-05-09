@@ -19,6 +19,7 @@ CREATE TABLE colors (
     PRIMARY KEY (ID)
     );
 
+
 delimiter $$
 
 --call to initalize/reset the database with the initial 10 colors
