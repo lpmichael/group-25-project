@@ -102,7 +102,7 @@ export class ColorpaintingtableComponent implements OnInit {
       this.columns = tableInfo.get('cols')?.value;
       this.rows = tableInfo.get('rows')?.value;
 
-      // create table to store background colors
+      // create array to store background colors
       for(var i = 0; i < this.rows; i++) {
         this.backgroundColorArray.push([]);
         for (var j = 0; j < this.columns; j++) {
