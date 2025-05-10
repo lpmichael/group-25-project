@@ -96,9 +96,10 @@ export class DatabaseService {
   
 
   getAmount(){
-    let count = [];
-    //count = this.http.get<any[]>(this.apiurl, {responseType: 'json'});
-    //return count['COUNT(ID)'];
+    let params = new HttpParams;
+    params = params.append("coloramount", 1);
+    return (this.http.get(this.apiurl, {responseType: 'json', params: params}));
+
   }
 
   
