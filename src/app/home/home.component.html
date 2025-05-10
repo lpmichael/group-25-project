@@ -1,4 +1,5 @@
 <title>Home</title> 
+<p>NUMBER: </p>
 <br>
 <body>
 <div id = "home">
@@ -20,7 +21,7 @@ https://angular.dev/guide/forms/reactive-forms
         <input type="range" formControlName="cols" min="0" max="702" step="1">
             <br>
         <label for="colors">Number of Colors: {{ this.numsForm.get('colors')?.value }} </label>
-        <input type="range" formControlName="colors" min="0" max=10 step="1">
+        <input type="range" formControlName="colors" min="0" max="{{this.colors.length}}" step="1">
             <br>
         <p>Use the slider to select a value for each field. Click sumbit when you are happy with your selections.</p>
         <button class="button" type="submit" [disabled]="!numsForm.valid">Submit</button>

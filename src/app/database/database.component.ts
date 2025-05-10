@@ -5,6 +5,7 @@ import { Colors } from '../colorsmodel/colors.model';
 import { NgModule } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { timeStamp } from 'console';
+import { waitForAsync } from '@angular/core/testing';
 
 
 
@@ -16,13 +17,12 @@ import { timeStamp } from 'console';
 })
 export class DatabaseComponent implements OnInit {
   colors:Array<Colors>=[];
+  limitDelete = false;
   constructor(private db:DatabaseService){
     
 }
 
-  
-  
-  ngOnInit(){
+  init(){
     this.db.getAllColors().subscribe({
       next: (response) => {
         this.colors = response;
@@ -31,11 +31,13 @@ export class DatabaseComponent implements OnInit {
           error: (err) => {
             console.error('AHHHHHHHHH: ', err);
           }})
+  }
+  
+  
+  ngOnInit(){
+    this.init();
   }  
 
-
- 
-    
         dataAdd = new FormGroup({
         name: new FormControl(),
         hex: new FormControl()
@@ -44,6 +46,7 @@ export class DatabaseComponent implements OnInit {
           onSubmitAdd() {
             console.log(this.dataAdd.value);
             this.db.addColor(this.dataAdd, this.colors);
+            this.init();
             
           }
             
@@ -64,7 +67,7 @@ export class DatabaseComponent implements OnInit {
         onSubmitEdit() {
           console.log(this.dataEdit.value);
           this.db.updateColor(this.dataEdit, this.colors);
-          this.getColors(this.colors);
+          this.init();
         }
 
 
@@ -75,7 +78,10 @@ export class DatabaseComponent implements OnInit {
           onSubmitDelete() {
             console.log('onsubmitdelete' + this.dataDelete.value);
             this.db.deleteColor(this.dataDelete);
-            this.getColors(this.colors);
+            this.init();
+
+          
+         
           }
 
     getColors(colors: Array<Colors>){
@@ -94,7 +100,5 @@ export class DatabaseComponent implements OnInit {
 
 
 
-function ngOnInIt() {
-  throw new Error('Function not implemented.');
-}
+
   
