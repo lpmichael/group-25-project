@@ -34,7 +34,7 @@
             <tr>
                 <td><label for="color">Select a color to edit: </label> </td>
                 <td> <select formControlName="color"> 
-                    <option *ngFor = "let color of colors" [ngValue]=color.ID> {{color.name}}</option> 
+                    <option *ngFor = "let color of colors" [ngValue]=color.ID > {{color.name}}</option> 
                 </select> </td>
             </tr>
             <tr>
@@ -64,7 +64,7 @@
             </tr>
         </table>
 
-        <button class="button" type="submit" [disabled]="!dataDelete.valid">Delete</button>
+        <button class="button" type="submit">Delete</button>
     </form>
 
 
