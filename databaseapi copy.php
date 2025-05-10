@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET"){
 		getColorAmount($conn);
 	}
 	//default is get all color table values
-	handleGet($conn);
+	else(handleGet($conn));
 }
 
 elseif ($_SERVER["REQUEST_METHOD"] === "POST"){
@@ -74,17 +74,24 @@ function handleGet($conn) {
 
 function getColorAmount($conn){
 	
-	$sql = $conn->prepare();
-	$sql -> bind_param();
+	$sql = $conn->prepare("CALL getAmount()");
 	$sql -> execute();
 
 	$result = $sql->get_result();
+
 	//handle output
+
+
+	$output = array();
+
+	while($row = $result -> fetch_assoc()){
+		array_push($output, $row);
+	}
+	echo json_encode($output);
 
 	http_response_code(200);
 
 	//probably. Write this as an int somehow??
-	echo json_encode($output);
 }
 
 //updateColor
@@ -106,6 +113,7 @@ function updateColor($conn){
 	}
 	$sql -> execute();
 	http_response_code(201);
+	echo json_encode(300);
 	
 }
 
@@ -130,6 +138,7 @@ function insertColor($conn){
     }
     $sql -> execute();
     http_response_code(201);
+	echo json_encode(300);
 }
 
 //deleteColor
@@ -151,6 +160,7 @@ function deleteColor($conn){
     }
     $sql -> execute();
     http_response_code(201);
+	echo json_encode(301);
     
 
 }

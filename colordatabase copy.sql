@@ -68,11 +68,14 @@ delimiter $$
 CREATE PROCEDURE removeColor(IN removeID int)
     BEGIN
         SET @currentAmount = (SELECT COUNT(ID) FROM colors);
-        IF @currentAmount < 2 THEN
-            SELECT 'Not enough colors in the table to delete one! Deletion failed' AS Error;
+        SELECT @currentAmount;
+
+        IF (@currentAmount < 3) THEN
+            SELECT 'Error' AS Error;
         ELSE
             DELETE FROM colors WHERE colors.ID = removeID;
         END IF; 
+        
     END $$
 
 delimiter ;
