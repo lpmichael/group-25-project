@@ -94,7 +94,6 @@ export class ColorpaintingtableComponent implements OnInit {
       //loop through array of cell colors, update values
         for (var i = 0; i < this.backgroundColorArray.length; i++) {
           for (var j = 0; j < this.backgroundColorArray[i].length; j++) {
-            console.log(this.backgroundColorArray[i][j]);
             if (this.backgroundColorArray[i][j] == oldHex) {
               this.backgroundColorArray[i][j] = newHex;
             }
