@@ -22,11 +22,12 @@ export class ColorpaintingtableComponent implements OnInit {
     formSubmitted = false;
     colors:Array<Colors> = [];
     selectedValue:Array<Colors> = [];
-    coloredCells: String[][] = [[]];
+    coloredCells: string[][] = [[]];
     selectedColorIndex = -1;
     //selected background color hex for painting the table - default to our site's background color
-    backgroundColorHex = "#fff4d1";
-    backgroundColorArray: String[][] = [[]];
+    backgroundColorHex = '#fff4d1'; // the active color
+    backgroundColorHexArray: string[] = []; //storing all selected colors by row
+    backgroundColorArray: string[][] = [[]];
 
 
     colorForm!: FormGroup;
@@ -60,6 +61,10 @@ export class ColorpaintingtableComponent implements OnInit {
       for(var i = 0; i < this.amount - 1; i++) {
         this.coloredCells.push([]);
       }
+      //build up the array to hold the selected color hexes
+      for (var i = 0; i < this.amount; i++) {
+        this.backgroundColorHexArray.push("#" + this.colors[i].hex_value);
+      }
     }
 
     disableOption(id: number){
@@ -70,6 +75,31 @@ export class ColorpaintingtableComponent implements OnInit {
 
     selected(i: number){
       return this.colors[i].ID;
+    }
+
+    colorHex(h: string, row: number) {
+      var oldHex = this.backgroundColorHexArray[row];
+      var colName = h;
+      var newHex = "";
+      for (var i = 0; i < this.colors.length; i++) {
+        if (this.colors[i].name == colName) {
+          newHex = '#' + this.colors[i].hex_value;
+          this.backgroundColorHexArray[row] = newHex;
+        }
+      }
+      this.updateCells(oldHex, newHex);
+    }
+
+    updateCells(oldHex: string, newHex: string) {
+      //loop through array of cell colors, update values
+        for (var i = 0; i < this.backgroundColorArray.length; i++) {
+          for (var j = 0; j < this.backgroundColorArray[i].length; j++) {
+            console.log(this.backgroundColorArray[i][j]);
+            if (this.backgroundColorArray[i][j] == oldHex) {
+              this.backgroundColorArray[i][j] = newHex;
+            }
+          }
+        }
     }
 
     ngOnInit() {
@@ -126,15 +156,14 @@ export class ColorpaintingtableComponent implements OnInit {
         this.coloredCells[this.selectedColorIndex] = newArray;
 
         //update background color for cell in array!
-        this.backgroundColorArray[r][c] = this.backgroundColorHex;
+        this.backgroundColorArray[r][c] = this.backgroundColorHexArray[this.selectedColorIndex];
       }
       alert(textContent);
     }
 
     selectedRow(i: number) {
       this.selectedColorIndex = i;
-      this.backgroundColorHex = "#" + this.colors[i].hex_value;
-      //TODO: fix - will only use hex color in original order from list
+      this.backgroundColorHex = this.backgroundColorHexArray[i];
     }
 
     getValues(r: number) {
