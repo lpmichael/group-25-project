@@ -10,7 +10,9 @@
             <col style="width:20%">
             <col style="width:80%">
         </colgroup>
-
+<!-- Updated with reference to: 
+      https://www.telerik.com/blogs/angular-basics-how-to-get-value-selected-dropdown-menu-item
+      -->
         <tr *ngFor="let item of counter(amount) let i = index">
             <td>
                 <input type="radio" id="selection"name="rowSelection" value="Selected" (click)="selectedRow(i)">
